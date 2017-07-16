@@ -5,15 +5,15 @@ FEATURES = {
     'coffee': lambda array, index: array[index]['Coffee (mg caffeine)'],
     'coffee-1': lambda array, index: array[index-1]['Coffee (mg caffeine)'],
     'coffee-2': lambda array, index: array[index-2]['Coffee (mg caffeine)'],
-    'coffee-1:5': lambda array, index: np.average([float(array[index-i]['Coffee (mg caffeine)']) for i in range(1, 6) if len(array[index-i]['Coffee (mg caffeine)']) > 0]),
+    'coffee-1:5': lambda array, index: np.average([float(array[index-i]['Coffee (mg caffeine)']) if len(array[index-i]['Coffee (mg caffeine)']) > 0 else np.nan for i in range(1, 6)]),
     'water': lambda array, index: array[index]['Water (cups)'],
     'water-1': lambda array, index: array[index-1]['Water (cups)'],
     'water-2': lambda array, index: array[index-2]['Water (cups)'],
-    'water-1:5': lambda array, index: np.average([float(array[index-i]['Water (cups)']) for i in range(1, 6) if len(array[index-i]['Water (cups)']) > 0]),
+    'water-1:5': lambda array, index: np.average([float(array[index-i]['Water (cups)']) if len(array[index-i]['Water (cups)']) > 0 else np.nan for i in range(1, 6)]),
     'sleep-1': lambda array, index: array[index-1]['Sleep'],
     'sleep-2': lambda array, index: array[index-2]['Sleep'],
     'sleep-3': lambda array, index: array[index-3]['Sleep'],
-    'sleep-1:5': lambda array, index: np.average([float(array[index-i]['Sleep']) for i in range(1, 6) if len(array[index-i]['Sleep']) > 0])
+    'sleep-1:5': lambda array, index: np.average([float(array[index-i]['Sleep']) if len(array[index-i]['Sleep']) > 0 else np.nan for i in range(1, 6)])
 }
 
 METRICS = {
