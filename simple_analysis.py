@@ -1,5 +1,6 @@
 import csv
 import numpy as np
+from sklearn.ensemble import RandomForestClassifier
 
 FEATURES = {
     'coffee': lambda array, index: array[index]['Coffee (mg caffeine)'],
@@ -19,6 +20,8 @@ FEATURES = {
 METRICS = {
     'productivity': lambda array, index: array[index]['Productivity']
 }
+
+feature_keys = list(FEATURES.keys())
 
 def load_csv_to_array(filename):
     dataarray = []
@@ -55,9 +58,21 @@ for i in range(16, len(dataarray)):
 
     if continue_outer_loop:
         continue
-
+    
     featured_data[dataarray[i]['Date']] = {}
     featured_data[dataarray[i]['Date']]['features'] = feature_values
-    featured_data[dataarray[i]['Date']]['metrics'] = metric_values
+    featured_data[dataarray[i]['Date']]['metrics'] = int(2*metric_values['productivity'] + 0.5)
 
-print featured_data
+#print featured_data
+clf = RandomForestClassifier(
+        n_estimators = len(feature_keys),
+        max_features = 2,
+        max_depth = 4)
+
+y_array = []
+x_array = []
+for date in featured_data.keys():
+    y_array.append(featured_data[date]['metrics'])
+    x_array.append([featured_data[date]['features'][key] for key in feature_keys])
+
+print y_array, x_array
