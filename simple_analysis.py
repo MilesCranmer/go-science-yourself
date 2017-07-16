@@ -28,10 +28,10 @@ def load_csv_to_array(filename):
             dataarray.append(row)
     return dataarray
 
+featured_data = {}
 dataarray = load_csv_to_array('data/stats.csv')
 for i in range(16, len(dataarray)):
     continue_outer_loop = False
-    print dataarray[i]['Date'], ':'
     feature_values = {}
     for feature in FEATURES.keys():
         try:
@@ -40,10 +40,9 @@ for i in range(16, len(dataarray)):
         except ValueError:
             continue_outer_loop = True
             break
-        print '\t', feature, ':',
-        print feature_value
-    print ''
     if continue_outer_loop:
         continue
     else:
-        pass
+        featured_data[dataarray[i]['Date']] = feature_values
+
+print featured_data
