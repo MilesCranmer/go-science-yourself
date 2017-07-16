@@ -6,15 +6,15 @@ FEATURES = {
     'coffee': lambda array, index: array[index]['Coffee (mg caffeine)'],
     'coffee-1': lambda array, index: array[index-1]['Coffee (mg caffeine)'],
     'coffee-2': lambda array, index: array[index-2]['Coffee (mg caffeine)'],
-    'coffee-1:5': lambda array, index: np.average([float(array[index-i]['Coffee (mg caffeine)']) if len(array[index-i]['Coffee (mg caffeine)']) > 0 else np.nan for i in range(1, 6)]),
+    #'coffee-1:5': lambda array, index: np.average([float(array[index-i]['Coffee (mg caffeine)']) if len(array[index-i]['Coffee (mg caffeine)']) > 0 else np.nan for i in range(1, 6)]),
     'water': lambda array, index: array[index]['Water (cups)'],
     'water-1': lambda array, index: array[index-1]['Water (cups)'],
     'water-2': lambda array, index: array[index-2]['Water (cups)'],
-    'water-1:5': lambda array, index: np.average([float(array[index-i]['Water (cups)']) if len(array[index-i]['Water (cups)']) > 0 else np.nan for i in range(1, 6)]),
+    #'water-1:5': lambda array, index: np.average([float(array[index-i]['Water (cups)']) if len(array[index-i]['Water (cups)']) > 0 else np.nan for i in range(1, 6)]),
     'sleep-1': lambda array, index: array[index-1]['Sleep'],
     'sleep-2': lambda array, index: array[index-2]['Sleep'],
     'sleep-3': lambda array, index: array[index-3]['Sleep'],
-    'sleep-1:5': lambda array, index: np.average([float(array[index-i]['Sleep']) if len(array[index-i]['Sleep']) > 0 else np.nan for i in range(1, 6)])
+    #'sleep-1:5': lambda array, index: np.average([float(array[index-i]['Sleep']) for i in range(1, 6) if len(array[index-i]['Sleep']) > 0])
 }
 
 METRICS = {
@@ -63,7 +63,6 @@ for i in range(16, len(dataarray)):
     featured_data[dataarray[i]['Date']]['features'] = feature_values
     featured_data[dataarray[i]['Date']]['metrics'] = int(2*metric_values['productivity'] + 0.5)
 
-#print featured_data
 clf = RandomForestClassifier(
         n_estimators = len(feature_keys),
         max_features = 2,
@@ -75,4 +74,4 @@ for date in featured_data.keys():
     y_array.append(featured_data[date]['metrics'])
     x_array.append([featured_data[date]['features'][key] for key in feature_keys])
 
-print y_array, x_array
+print clf.fit(x_array, y_array)
