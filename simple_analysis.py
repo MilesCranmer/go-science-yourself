@@ -19,10 +19,12 @@ METRICS = {
     'productivity': lambda array, index: array[index]['productivity']
 }
 
-with open('data/stats.csv') as datafile:
-    reader = csv.DictReader(datafile, delimiter=',')
+def load_csv_to_array(filename):
     dataarray = []
-    for row in reader:
-        dataarray.append(row)
-    print FEATURES['coffee'](dataarray, 18);
+    with open(filename) as datafile:
+        reader = csv.DictReader(datafile, delimiter=',')
+        for row in reader:
+            dataarray.append(row)
+    return dataarray
 
+dataarray = load_csv_to_array('data/stats.csv')
