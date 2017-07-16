@@ -39,7 +39,7 @@ for i in range(16, len(dataarray)):
     metric_values = {}
     for feature in FEATURES.keys():
         try:
-            feature_value = float(FEATURES[feature](dataarray, i))
+            feature_value = np.float(FEATURES[feature](dataarray, i))
             feature_values[feature] = feature_value
         except ValueError:
             continue_outer_loop = True
