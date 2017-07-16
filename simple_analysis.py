@@ -66,7 +66,7 @@ for i in range(16, len(dataarray)):
 clf = RandomForestClassifier(
         n_estimators = len(feature_keys),
         max_features = 2,
-        max_depth = 4)
+        max_depth = 2)
 
 y_array = []
 x_array = []
@@ -74,4 +74,6 @@ for date in featured_data.keys():
     y_array.append(featured_data[date]['metrics'])
     x_array.append([featured_data[date]['features'][key] for key in feature_keys])
 
-print clf.fit(x_array, y_array)
+fitted_forest = clf.fit(x_array, y_array)
+for i in range(len(feature_keys)):
+    print  feature_keys[i], "has", clf.feature_importances_[i], "importance"
