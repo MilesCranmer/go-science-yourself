@@ -15,6 +15,10 @@ FEATURES = {
     'sleep-1:5': lambda array, index: np.average([array[index-i]['Sleep'] for i in range(1, 6)])
 }
 
+METRICS = {
+    'productivity': lambda array, index: array[index]['productivity']
+}
+
 with open('data/stats.csv') as datafile:
     reader = csv.DictReader(datafile, delimiter=',')
     dataarray = []
