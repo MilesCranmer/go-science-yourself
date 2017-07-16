@@ -17,7 +17,7 @@ FEATURES = {
 }
 
 METRICS = {
-    'productivity': lambda array, index: array[index]['productivity']
+    'productivity': lambda array, index: array[index]['Productivity']
 }
 
 def load_csv_to_array(filename):
@@ -33,6 +33,7 @@ dataarray = load_csv_to_array('data/stats.csv')
 for i in range(16, len(dataarray)):
     continue_outer_loop = False
     feature_values = {}
+    metric_values = {}
     for feature in FEATURES.keys():
         try:
             feature_value = float(FEATURES[feature](dataarray, i))
@@ -40,9 +41,23 @@ for i in range(16, len(dataarray)):
         except ValueError:
             continue_outer_loop = True
             break
+
     if continue_outer_loop:
         continue
-    else:
-        featured_data[dataarray[i]['Date']] = feature_values
+
+    for metric in METRICS.keys():
+        try:
+            metric_value = float(METRICS[metric](dataarray, i))
+            metric_values[metric] = metric_value
+        except ValueError:
+            continue_outer_loop = True
+            break
+
+    if continue_outer_loop:
+        continue
+
+    featured_data[dataarray[i]['Date']] = {}
+    featured_data[dataarray[i]['Date']]['features'] = feature_values
+    featured_data[dataarray[i]['Date']]['metrics'] = metric_values
 
 print featured_data
